@@ -79,7 +79,7 @@ def on_message(client, userdata, msg):
 					REQUEST.updateDIYs(user_id, dev_id)
 					LOG.writeLn("[MQTT] Command recive and reboot in 3 sec")
 					time.sleep(3)
-					run_command("sudo reboot")
+					GLOB.run_command("sudo reboot")
 	except Exception as e :
 		LOG.writeLn("[MQTT] : error : %s" % e)
 

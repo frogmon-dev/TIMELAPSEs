@@ -3,6 +3,7 @@
 import os
 import re
 import json
+import subprocess
 
 from unidecode       import unidecode
 from datetime import datetime, timedelta
@@ -221,3 +222,9 @@ class GLOB:
 				return config.itemsConfig(section)
 			except Exception as e:
 				print("itemConfig error : %s" % e)
+
+	def run_command(command):
+		ret_code, output = subprocess.getstatusoutput(command)
+		if ret_code == 1:
+			print("FAILED: %s" % command)
+		return output.splitlines() 
