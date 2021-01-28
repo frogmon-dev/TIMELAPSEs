@@ -64,7 +64,9 @@ def on_message(client, userdata, msg):
 			if (grp6 != '99') :
 				GLOB.writeConfig(configFileNM, 'SETUP', 'end_time', grp6)
 				remote = '1'
-			 
+			
+			print('grps = %s %s %s %s %s %s [%s]' % (grp1, grp2, grp3, grp4, grp5, grp6, remote))
+			
 			if remote == '1' :
 				if GLOB.appendTIMELAPsControlInfo(COM.gJsonDir+"device.json", GLOB.readConfig(configFileNM, 'SETUP', 'interval', '0')
 				, GLOB.readConfig(configFileNM, 'SETUP', 'resolution_x', '0')
