@@ -10,6 +10,7 @@ except :
 
 #프로그램 시작
 import paho.mqtt.client as mqtt
+import time
 
 from frogmon.uCommon  import COM
 from frogmon.uGlobal  import GLOB
