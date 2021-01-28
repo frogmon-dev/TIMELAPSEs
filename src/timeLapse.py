@@ -22,9 +22,25 @@ from frogmon.uGlobal  import GLOB
 from frogmon.uRequest import REQUEST
 from frogmon.uLogger  import LOG
 
+# Functions
+def makeJson():
+    data = {}
+    data['DEV_ID'] = mProduct_id
+    data['VERSION'] = mVersion
+    data['INTERVAL']     = mInterval_sec
+    data['RES_X']        = mResolution_x
+    data['RES_Y']        = mResolution_y
+    data['ROTATION']     = mRotation
+    data['START_TIME']   = mStart_time
+    data['END_TIME']     = mEnd_time
+
+    LOG.writeLn('json file save:%s' % COM.gJsonDir+'device.json')
+    with open(COM.gJsonDir+'device.json', 'w', encoding='utf-8') as make_file:
+        json.dump(data, make_file, indent="\t")	
+
+
 # init
 configFileNM = COM.gHomeDir+COM.gSetupFile
-
 mUser_id        = GLOB.readConfig(configFileNM, 'SETUP', 'user_id', 'empty')
 mProduct_id     = GLOB.readConfig(configFileNM, 'SETUP', 'product_id', 'empty')
 mVersion        = GLOB.readConfig(configFileNM, 'SETUP', 'version', 'ver 1.0')
@@ -34,7 +50,9 @@ mResolution_y   = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_y', '48
 mRotation       = int(GLOB.readConfig(configFileNM, 'SETUP', 'rotation', '0'))
 mStart_time     = int(GLOB.readConfig(configFileNM, 'SETUP', 'start_time', '0'))
 mEnd_time       = int(GLOB.readConfig(configFileNM, 'SETUP', 'end_time', '23'))
+
 GLOB.setUpdateTime()
+makeJson()
 
 print('')
 print('--------------------------------------------------')
