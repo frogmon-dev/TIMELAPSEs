@@ -66,6 +66,7 @@ LOG.writeLn("[timeLapse] process run")
 while True:
     try:
         GLOB.setUpdateTime()
+        GLOB.appendTIMELAPsControlInfo(COM.gJsonDir+"device.json", mInterval_sec, mResolution_x, mResolution_y, mRotation, mStart_time, mEnd_time)
         REQUEST.updateDIYs(mUser_id, mProduct_id)
         if (int(COM.gHH) >= mStart_time) and (int(COM.gHH) <= mEnd_time): 
             camera.start_preview()

@@ -134,7 +134,8 @@ class GLOB:
 				json_data['RES_Y']        = Resolution_y
 				json_data['ROTATION']     = Rotation
 				json_data['START_TIME']   = Start_time
-				json_data['END_TIME']     = End_time   				
+				json_data['END_TIME']     = End_time 
+				
 			with open(fileNM, 'w', encoding='utf-8') as make_file:
 				json.dump(json_data, make_file, indent="\t")
 			rc = 0
