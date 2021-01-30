@@ -131,6 +131,7 @@ dmypy.json
 bin/logs/*.log
 bin/pictures/*.jpg
 bin/json/*.json
+bin/setup.ini
 
 !bin/pictures/.gitkeep
 !bin/logs/.gitkeep
