@@ -34,6 +34,7 @@ def makeJson():
     data['START_TIME']   = mStart_time
     data['END_TIME']     = mEnd_time
     data['DAY_COUNT']    = mCount
+    data['LOCAL_IP']     = GLOB.get_ip_address()
     
     LOG.writeLn('json file save:%s' % COM.gJsonDir+'device.json')
     with open(COM.gJsonDir+'device.json', 'w', encoding='utf-8') as make_file:

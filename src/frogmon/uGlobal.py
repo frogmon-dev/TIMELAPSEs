@@ -4,6 +4,7 @@ import os
 import re
 import json
 import subprocess
+import socket
 
 from unidecode       import unidecode
 from datetime import datetime, timedelta
@@ -228,3 +229,8 @@ class GLOB:
 		if ret_code == 1:
 			print("FAILED: %s" % command)
 		return output.splitlines() 
+
+	def get_ip_address():
+		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+		s.connect(("8.8.8.8", 80))
+		return s.getsockname()[0]
