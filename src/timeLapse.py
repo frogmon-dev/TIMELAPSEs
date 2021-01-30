@@ -33,7 +33,8 @@ def makeJson():
     data['ROTATION']     = mRotation
     data['START_TIME']   = mStart_time
     data['END_TIME']     = mEnd_time
-
+    data['DAY_COUNT']    = mCount
+    
     LOG.writeLn('json file save:%s' % COM.gJsonDir+'device.json')
     with open(COM.gJsonDir+'device.json', 'w', encoding='utf-8') as make_file:
         json.dump(data, make_file, indent="\t")	
@@ -50,6 +51,7 @@ mResolution_y   = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_y', '48
 mRotation       = int(GLOB.readConfig(configFileNM, 'SETUP', 'rotation', '0'))
 mStart_time     = int(GLOB.readConfig(configFileNM, 'SETUP', 'start_time', '0'))
 mEnd_time       = int(GLOB.readConfig(configFileNM, 'SETUP', 'end_time', '23'))
+mCount = 0
 
 GLOB.setUpdateTime()
 makeJson()
@@ -75,9 +77,6 @@ print('')
 camera = PiCamera()
 camera.resolution = (mResolution_x,mResolution_y)
 camera.rotation = mRotation
-counter = 1
-decCnt = 0
-updateInt = 0
 
 LOG.writeLn("[timeLapse] process run")
 # Main Process
@@ -93,6 +92,7 @@ while True:
             camera.capture(imgFileNm)
             camera.stop_preview()
             LOG.writeLn('file save:%s' % imgFileNm)
+            mCount = mCount + 1
         time.sleep(mInterval_sec)
     except Exception as e :
         LOG.writeLn("[timeLapse] Error : %s" % e)
