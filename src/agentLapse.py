@@ -6,15 +6,16 @@ import requests
 
 from frogmon.uCommon    import COM
 from frogmon.uConfig    import CONF
+from frogmon.uGlobal  	import GLOB
 
-config = CONF(COM.gHomeDir+COM.gSetupFile)
+configFileNM = COM.gHomeDir+COM.gSetupFile
 
-user_id = config.readConfig('SETUP', 'user_id', '')
-dev_id  = config.readConfig('SETUP', 'product_id', '')
-size_x  = config.readConfig('SETUP', 'resolution_x', '1920')
-size_y  = config.readConfig('SETUP', 'resolution_y', '1080')
-mInterval  = config.readConfig('SETUP', 'interval', '60')
-mRotation  = config.readConfig('SETUP', 'rotation', '0')
+user_id = GLOB.readConfig(configFileNM, 'SETUP', 'user_id', '')
+dev_id  = GLOB.readConfig(configFileNM, 'SETUP', 'product_id', '')
+size_x  = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_x', '1920'))
+size_y  = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_y', '1080'))
+mInterval  = int(GLOB.readConfig(configFileNM, 'SETUP', 'interval', '60'))
+mRotation  = int(GLOB.readConfig(configFileNM, 'SETUP', 'rotation', '0'))
 
 
 def callImgUploadAPI(fileName):

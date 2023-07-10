@@ -10,7 +10,7 @@ class COM:
 	gSetupFile = 'setup.ini'
 	gControlFile = 'control.ini'
 	
-	gMainDir   = '/home/pi/TIMELAPs/'
+	gMainDir   = '/home/pi/TIMELAPSEs/'
 	gHomeDir   = gMainDir + 'bin/'
 	gLogDir    = gMainDir + 'bin/logs/'
 	gJsonDir   = gMainDir + 'bin/json/'
