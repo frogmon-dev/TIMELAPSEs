@@ -12,7 +12,8 @@ except :
 import paho.mqtt.client as mqtt
 import time
 import json
-
+from datetime import datetime
+import requests
 from picamera import PiCamera
 
 from frogmon.uCommon  import COM
@@ -33,6 +34,18 @@ dev_id    = GLOB.readConfig(configFileNM, 'SETUP', 'product_id', '0')
 mSub_nm   = "FARMs/Control/%s/%s" % (user_id, dev_id)
 mPub_nm   = "FARMs/Status/%s/%s" % (user_id, dev_id)
 
+def callImgUploadAPI(fileName):
+    url = 'https://frogmon.synology.me:5184/api/imgUpload'
+    data = {
+        'user_id': user_id,
+        'product_id': dev_id
+    }    
+    with open(fileName, 'rb') as img_file:
+        files = {'file': img_file}
+        response = requests.post(url, data=data, files=files)
+    print(response.text)
+
+
 def captureOnce():
     size_x  = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_x', '1920'))
     size_y  = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_y', '1080'))
@@ -51,6 +64,8 @@ def captureOnce():
         callImgUploadAPI(file_path)
     except Exception as e:
         print("error : %s" % e)
+    finally:
+        camera.close()
     
 
 def getInfo():
@@ -64,7 +79,8 @@ def getInfo():
     response_message['hight'] = size_y
     response_message['interval'] = mInterval
     response_message['rotation'] = mRotation
-    response_message['click'] = 'click'
+    response_message['button'] = 'click'
+    response_message['image'] = 'still'
     return response_message
     
 
@@ -83,12 +99,13 @@ def on_message(client, userdata, msg):
         if (status != 0):
             response_message = getInfo()
             client.publish(mPub_nm, json.dumps(response_message))
-        else:
-            click = GLOB.getJsonVal(strJson, 'click', '0')
-            if (click != '0'):
-                captureOnce()
-                response_message = getInfo()
-                client.publish(mPub_nm, json.dumps(response_message))
+        
+        button = GLOB.getJsonVal(strJson, 'button', '0')
+        if (button != '0'):
+            print('get click')
+            captureOnce()
+            response_message = getInfo()
+            client.publish(mPub_nm, json.dumps(response_message))
     except Exception as e :
         LOG.writeLn("[MQTT] : error : %s" % e)
 

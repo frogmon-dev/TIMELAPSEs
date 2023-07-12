@@ -39,7 +39,7 @@ def callImgUploadAPI(fileName):
         'user_id': user_id,
         'product_id': dev_id
     }    
-    with open(file_path, 'rb') as img_file:
+    with open(fileName, 'rb') as img_file:
         files = {'file': img_file}
         response = requests.post(url, data=data, files=files)
     print(response.text)

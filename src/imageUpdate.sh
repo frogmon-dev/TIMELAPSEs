@@ -5,7 +5,7 @@ PASS='Rhlrnf8359!'
 HOST='frogmon.synology.me'
 PORT=9122
 LOCAL_FILE=$1
-REMOTE_PATH='/photo/TIMELAPSEs/frogmon/timelapses'
+REMOTE_PATH='/photo/TIMELAPSEs/dev/times01'
 
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <local_file_path>"
