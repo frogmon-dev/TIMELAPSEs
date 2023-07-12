@@ -1,13 +1,5 @@
 #-*- coding:utf-8 -*-
 
-# 중복 실행 방지
-from tendo import singleton
-try:
-    me = singleton.SingleInstance()
-except :
-    print("another process running!")
-    exit()
-
 #프로그램 시작
 import paho.mqtt.client as mqtt
 import time
@@ -91,7 +83,6 @@ def on_connect(client, userdata, flags, rc):
 
 #서버로부터 publish message를 받을 때 호출되는 콜백
 def on_message(client, userdata, msg):
-    
     strJson = msg.payload.decode()
     LOG.writeLn("[MQTT] "+ msg.topic+" "+ strJson) #토픽과 메세지를 출력한다.
     try:
@@ -124,8 +115,11 @@ client = mqtt.Client() #client 오브젝트 생성
 client.on_connect = on_connect #콜백설정
 client.on_message = on_message #콜백설정
 
-try:
-    client.connect(mSvr_addr, int(mSvr_port), 60) #라즈베리파이3 MQTT 브로커에 연결
-    client.loop_forever()
-except Exception as e :
-    LOG.writeLn("[MQTT] : error : %s" % e)
+while True:
+    try:
+        client.connect(mSvr_addr, int(mSvr_port), 60)
+        client.loop_forever()
+    except Exception as e:
+        LOG.writeLn("[MQTT] : error : %s" % e)
+        time.sleep(10)  # short delay before trying to reconnect
+

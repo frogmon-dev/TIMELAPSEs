@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python /home/pi/TIMELAPSEs/src/agentLapse.py &
+python /home/pi/TIMELAPSEs/src/agentMqtt.py &
 
 #python3 /home/pi/TIMELAPSEs/src/timeLapse.py &
 
