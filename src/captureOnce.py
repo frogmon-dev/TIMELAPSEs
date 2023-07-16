@@ -45,7 +45,7 @@ def callImgUploadAPI(fileName):
         response = requests.post(url, data=data, files=files)
     print(response.text)
 
-current_hour = datetime.strftime("%H")
+current_hour = int(datetime.now().strftime("%H"))
 if(mStartTime<=current_hour and current_hour<= mEndTime):
     captureOnce()    	
         
