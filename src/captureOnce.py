@@ -1,7 +1,6 @@
 from picamera import PiCamera
 from time import sleep
 from datetime import datetime
-import subprocess
 import requests
 
 from frogmon.uCommon    import COM
@@ -16,6 +15,8 @@ size_x  = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_x', '1920'))
 size_y  = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_y', '1080'))
 mInterval  = int(GLOB.readConfig(configFileNM, 'SETUP', 'interval', '60'))
 mRotation  = int(GLOB.readConfig(configFileNM, 'SETUP', 'rotation', '0'))
+mStartTime  = int(GLOB.readConfig(configFileNM, 'SETUP', 'start_time', '0'))
+mEndTime  = int(GLOB.readConfig(configFileNM, 'SETUP', 'end_time', '24'))
 
 def captureOnce():
     # pi camera Setting
@@ -25,9 +26,9 @@ def captureOnce():
 
     try:
         timestamp = datetime.now().strftime('%Y%m%d%H%M%S') 
+        
         file_path = '/home/pi/TIMELAPSEs/images/image%s.jpg' % timestamp
-        camera.capture(file_path)
-        subprocess.run(["/home/pi/TIMELAPSEs/src/imageUpdate.sh", file_path], check=True)
+        camera.capture(file_path)        
         callImgUploadAPI(file_path)
     except Exception as e:
         print("error : %s" % e)
@@ -44,6 +45,8 @@ def callImgUploadAPI(fileName):
         response = requests.post(url, data=data, files=files)
     print(response.text)
 
-captureOnce()    	
+current_hour = datetime.strftime("%H")
+if(mStartTime<=current_hour and current_hour<= mEndTime):
+    captureOnce()    	
         
 #camera.stop_preview()

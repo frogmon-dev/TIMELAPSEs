@@ -6,6 +6,7 @@ HOST='frogmon.synology.me'
 PORT=9122
 LOCAL_FILE=$1
 REMOTE_PATH='/photo/TIMELAPSEs/frogmon/times01'
+DELETE_PATH='/home/pi/TIMELAPSEs/images'
 
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <local_file_path>"
@@ -26,3 +27,6 @@ send "put $LOCAL_FILE $REMOTE_PATH\r"
 expect "sftp>"
 send "bye\r"
 EOF
+
+# Delete all files in DELETE_PATH
+rm $DELETE_PATH/*.jpg

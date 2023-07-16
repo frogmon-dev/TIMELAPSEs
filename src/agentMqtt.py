@@ -73,8 +73,7 @@ def getInfo():
     response_message['rotation'] = mRotation
     response_message['button'] = 'click'
     response_message['image'] = 'still'
-    return response_message
-    
+    return response_message    
 
 #서버로부터 CONNTACK 응답을 받을 때 호출되는 콜백
 def on_connect(client, userdata, flags, rc):
