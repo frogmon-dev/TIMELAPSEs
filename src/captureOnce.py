@@ -29,7 +29,7 @@ def captureOnce():
         timestamp = datetime.now().strftime('%Y%m%d%H%M%S')         
         file_path = '/home/pi/TIMELAPSEs/images/image%s.jpg' % timestamp
         camera.capture(file_path)
-        subprocess.run(["/home/pi/TIMELAPSEs/src/imageUpdate.sh", file_path], check=True)        
+        #subprocess.run(["/home/pi/TIMELAPSEs/src/imageUpdate.sh", file_path], check=True)        
         callImgUploadAPI(file_path)
     except Exception as e:
         print("error : %s" % e)
