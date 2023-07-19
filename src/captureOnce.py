@@ -15,8 +15,8 @@ size_x  = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_x', '1920'))
 size_y  = int(GLOB.readConfig(configFileNM, 'SETUP', 'resolution_y', '1080'))
 mInterval  = int(GLOB.readConfig(configFileNM, 'SETUP', 'interval', '60'))
 mRotation  = int(GLOB.readConfig(configFileNM, 'SETUP', 'rotation', '0'))
-mStartTime  = int(GLOB.readConfig(configFileNM, 'SETUP', 'start_time', '0'))
-mEndTime  = int(GLOB.readConfig(configFileNM, 'SETUP', 'end_time', '24'))
+mStartTime = int(GLOB.readConfig(configFileNM, 'SETUP', 'start_time', '0'))
+mEndTime   = int(GLOB.readConfig(configFileNM, 'SETUP', 'end_time', '24'))
 
 def captureOnce():
     # pi camera Setting
@@ -28,7 +28,8 @@ def captureOnce():
         timestamp = datetime.now().strftime('%Y%m%d%H%M%S') 
         
         file_path = '/home/pi/TIMELAPSEs/images/image%s.jpg' % timestamp
-        camera.capture(file_path)        
+        camera.capture(file_path)
+        subprocess.run(["/home/pi/TIMELAPSEs/src/imageUpdate.sh", file_path], check=True)        
         callImgUploadAPI(file_path)
     except Exception as e:
         print("error : %s" % e)
