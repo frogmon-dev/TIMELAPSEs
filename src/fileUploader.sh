@@ -4,29 +4,25 @@ USER='frogmon'
 PASS='Rhlrnf8359!'
 HOST='frogmon.synology.me'
 PORT=9122
-LOCAL_FILE=$1
+TODAY=$(date '+%Y%m%d')
 REMOTE_PATH='/photo/TIMELAPSEs/frogmon/times01'
 DELETE_PATH='/home/pi/TIMELAPSEs/images'
+ZIPFILE="${DELETE_PATH}/${TODAY}_images.zip"
 
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 <local_file_path>"
-    exit 1
-fi
-
-if [ ! -f $LOCAL_FILE ]; then
-    echo "Error: File $LOCAL_FILE does not exist."
-    exit 1
-fi
+zip -r "${ZIPFILE}" "${DELETE_PATH}/image${TODAY}"* && rm "${DELETE_PATH}/image${TODAY}"*
 
 /usr/bin/expect << EOF
 spawn /usr/bin/sftp -oPort=$PORT $USER@$HOST
 expect "password:"
 send "$PASS\r"
 expect "sftp>"
-send "put $LOCAL_FILE $REMOTE_PATH\r"
+send "put $ZIPFILE $REMOTE_PATH\r"
 expect "sftp>"
 send "bye\r"
 EOF
 
-# Delete all files in DELETE_PATH
-rm $DELETE_PATH/*.jpg
+if [ $? -eq 0 ]; then
+    rm $ZIPFILE
+else
+    echo "Error occurred during sftp transfer"
+fi
